@@ -1,0 +1,4 @@
+ 
+Solved system of linear equations in the mystery circuit-
+
+https://www.wolframalpha.com/input/?i=3a-b%2B0c-d%3D5,+-a%2B4b-c-d%3D0,+0a-b%2B3c-d%3D0,+-a-b-c%2B3d%3D0
