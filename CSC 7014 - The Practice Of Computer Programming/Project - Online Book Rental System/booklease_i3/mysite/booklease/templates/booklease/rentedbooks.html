@@ -1,0 +1,57 @@
+{% extends "booklease/base.html" %}
+
+{% block content %}
+
+<h1><font color="Red" size="15"><u>Borrowed Books</u></font></h1>
+
+{% if books != None %}
+	{% if books.count > 0 %}
+		<table>
+		<th><font color="Blue" size="4">Book Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		<th><font color="Blue" size="4">Book Owner&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		<th><font color="Blue" size="4">Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		<th><font color="Blue" size="4">Start Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		<th><font color="Blue" size="4">End Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		{% for book in books %}
+			<tr>
+			<td>{{ book.borrowed_book_id }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td><a href="/booklease/profile/{{ book.borrowed_book_owner.username }}">{{ book.borrowed_book_owner }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>{{ book.borrowed_book_id.price }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>{{ book.start_date }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>{{ book.end_date }}</td>
+			</tr>
+		{% endfor %}
+		</table>
+	{% else %}
+		<b><p><font size="5">You have not borrowed any books</font></p></b>
+	{% endif %}
+{% endif %}
+
+<h1><font color="Red" size="8"><u>Borrowed Books History</u></font></h1>
+
+{% if pastbooks != None %}
+	{% if pastbooks.count > 0 %}
+		<table>
+		<th><font color="Blue" size="4">Book Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		<th><font color="Blue" size="4">Book Owner&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		<th><font color="Blue" size="4">Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		<th><font color="Blue" size="4">Start Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		<th><font color="Blue" size="4">End Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		<th><font color="Blue" size="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Review&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		{% for book in pastbooks %}
+			<tr>
+			<td>{{ book.borrowed_book_id }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td><a href="/booklease/profile/{{ book.borrowed_book_owner.username }}">{{ book.borrowed_book_owner }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>{{ book.borrowed_book_id.price }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>{{ book.start_date }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>{{ book.end_date }}</td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/booklease/reviews/{{book.id}}"> Write a review</a></td>
+			</tr>
+		{% endfor %}
+		</table>
+	{% else %}
+		<b><p><font size="5">You have not borrowed any books in the past</font></p></b>
+	{% endif %}
+{% endif %}
+
+{% endblock %}

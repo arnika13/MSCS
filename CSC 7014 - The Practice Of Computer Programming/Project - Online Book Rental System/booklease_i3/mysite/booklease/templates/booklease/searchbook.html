@@ -1,0 +1,29 @@
+{% extends "booklease/base.html" %}
+
+{% block content %}
+
+<h1><font color="Red" size="15"><u>Search Book</u></font></h1>
+<form action="" method="post">
+  </br>
+	{% csrf_token %} 
+ <input type="text" id="id_search_book" maxlength="30" name="searchString" class="form-control" placeholder="Book Name">
+  <button type="submit" value="Search"><b>Search</b></button>
+</form>
+
+{% if books != None %}
+	{% if books.count > 0 %}
+		{% for book in books %}
+			<div>
+			<ul>
+			<a href="/booklease/bookdetails/{{ book.id }}">{{ book.book_name }}</a>
+			</ul>
+			</div>
+		{% endfor %}
+	{% else %}
+		<p>No Results matching criteria</p>
+	{% endif %}
+{% endif %}
+
+
+
+{% endblock %}

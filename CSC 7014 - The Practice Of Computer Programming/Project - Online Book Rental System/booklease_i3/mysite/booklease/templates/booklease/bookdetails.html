@@ -1,0 +1,78 @@
+{% extends "booklease/base.html" %}
+
+{% block content %}
+
+<h1><font color="Red" size="15"><u>Book Details</u></font></h1>
+
+{% if emailalreadysent != None %}
+	<b><p><font size="5">Email has already been sent to the book owner. Please have patience. The book owner will contact you soon.</font></p></b>
+{% endif %}
+
+{% if ownername != None %}
+	<b><p><font size="5">Email Sent to {{ ownername }}. The book owner will contact you soon. Kindly, make the payment to the book owner in cash.</font></p></b>
+{% endif %}
+<form action="" method="post">
+		{% csrf_token %} 
+	<table>
+	<th><font color="Blue">Book Owner</font></th>
+	<th><font color="Blue">Book Name</font></th>
+	<th><font color="Blue">Book Author</font></th>
+	<th><font color="blue">Book Status</font></th>
+	<th><font color="blue">ISBN</font></th>
+	<th><font color="blue">Rent Price(per day)</font></th>
+	{% if book.book_status == 'RE' %}
+		<th><font color="blue">Start Date</font></th>
+		<th><font color="blue">Due Date</font></th>
+	{% endif %}
+	<tr>
+	<td><a href="/booklease/profile/{{ book.book_owner.username }}"> {{ book.book_owner }} </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>	
+	<td>{{ book.book_name }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	<td>{{ book.book_author }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	<td>{{ book.book_status }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	<td>{{ book.isbn }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	<td>{{ book.price }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	{% if book.book_status == 'RE' %}
+		<td>{{ borrowedbook.start_date }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td>{{ borrowedbook.end_date }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	{% endif %}
+	</tr>
+	</table>
+	<br/><br/>
+	<input type="hidden" name="bookid" value={{ book.id }}>
+	{% if owner == True %}
+		{% if book.book_status == 'RE' %}
+			<button type="submit" name="modifystatus" value="modifystatus"><b>Make it Available</b></button>
+		{% endif %}
+	{% else %}
+		{% if book.book_status == 'AV' %}
+			<button type="submit" name="requesttorent" value="requesttorent"><b>Request to Rent</b></button>
+		{% endif %}
+	{% endif %}
+</form>
+
+
+{% if pastbooks != None %}
+	{% if pastbooks.count > 0 %}
+		<h1><font color="Red" size="5"><u>Users who have rented this book from you in the past</u></font></h1>
+		<table>
+		<th><font color="Blue" size="4">Borrower&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		<th><font color="Blue" size="4">Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		<th><font color="Blue" size="4">Start Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		<th><font color="Blue" size="4">End Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		<th><font color="Blue" size="4">Review&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+		{% for book in pastbooks %}
+			<tr>
+			<td>{{ book.book_borrowed_by }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>{{ book.borrowed_book_id.price }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>{{ book.start_date }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>{{ book.end_date }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td><a href="/booklease/reviews/{{book.id}}"> Write a Review</a></td>
+			</tr>
+		{% endfor %}
+		</table>
+	{% else %}
+		<!--<b><p><font size="5">You have not rented out this book to anyone yet</font></p></b>-->
+	{% endif %}
+{% endif %}
+
+{% endblock %}

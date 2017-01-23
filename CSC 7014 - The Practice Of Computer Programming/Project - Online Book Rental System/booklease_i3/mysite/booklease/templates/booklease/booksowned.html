@@ -1,0 +1,44 @@
+{% extends "booklease/base.html" %}
+
+{% block content %}
+
+<script type="text/javascript">
+	function toggle(source) {
+		checkboxes = document.getElementsByName('id');
+		for(var i=0, n=checkboxes.length; i < n; i++) {
+			checkboxes[i].checked = source.checked;
+	  }
+	}
+</script>
+
+<h1><font color="red" size="15"><u>Books Owned</u></font></h1>
+
+<form action="" method="post">
+{% csrf_token %}
+{% if booklist.count > 0 %}
+	<table>
+	<th><input type="checkbox" name="selectall" onclick="toggle(this)"><b>Select All</b></th>
+	<th><font color="Blue">Book Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+	<th><font color="Blue">Book Author&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+	<th><font color="blue">Book Status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+	<th><font color="blue">ISBN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+	<th><font color="blue">Rent Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+	{% for book in booklist %}
+		<tr>
+		<td><input type="checkbox" name="id" value={{ book.id }}></td>
+		<td><a href="/booklease/bookdetails/{{ book.id }}">{{ book.book_name }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td>{{ book.book_author }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td>{{ book.book_status }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td>{{ book.isbn }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td>{{ book.price }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		</tr>
+	{% endfor%}
+	</table>
+	<br/><br/>
+	<button type="submit" value="delete"><b>Delete</b></button>
+{% else %}
+	<b><p><font size="5">No Books Found</font></p></b>
+{% endif %}
+
+</form>
+{% endblock %}

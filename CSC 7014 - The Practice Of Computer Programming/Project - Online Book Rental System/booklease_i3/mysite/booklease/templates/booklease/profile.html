@@ -1,0 +1,47 @@
+{% extends "booklease/base.html" %}
+
+{% block content %}
+<style>
+#sidebar {
+	float: left;
+	width: 200px;
+	border: 1px solid #000;
+}
+</style>
+
+<div>
+<a href="/booklease/editprofile" id="sidebar"><b>Edit Profile</b></a>
+</div>
+
+{% if errormessage != None %}
+	<p> {{errormessage }} </p>
+{% endif %}
+
+<br/>
+
+{% if logged_in_profile == True %}
+	<p><b><font color="red" size="7">Hey, {{ userprofile.firstname }} !!</font></b></p>
+{% else %}
+	<p><b><font color="red" size="7">Profile of {{ userprofile.firstname }} !!</font></b></p>	
+{% endif %}
+<p><font color="blue" size="4"><b>{{ userprofile.city }}, {{ userprofile.state }}</b> </font</p>
+<p><b><font color="Red" size="4">About Me:</font></b><font color="blue" size="4"> {{ userprofile.description }}</font></p>
+<p><u><b><font color="red" size="5">Reviews</font></b></u></p>
+<br/>
+{% if reviews != None %}
+	{% if reviews.count > 0 %}
+		<table>
+		<th><font color="red" size="4">Review from</font></th>
+		<th><font color="red" size="4">Review</font></th>
+		{% for review in reviews %}
+			<tr>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/booklease/profile/{{ review.review_by.username }}">{{ review.review_by }} </a></td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ review.review }}</td>
+			</tr>
+		{% endfor %}
+	{% else %}
+		<p>No Reviews available</p>
+	{% endif %}
+{% endif %}
+
+{% endblock %}

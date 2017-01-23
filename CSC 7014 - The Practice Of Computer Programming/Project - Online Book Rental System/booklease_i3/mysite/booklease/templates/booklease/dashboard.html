@@ -1,0 +1,41 @@
+{% extends "booklease/base.html" %}
+
+{% block content %}
+
+<h1><font color="Red" size="15"><u>Dashboard</u></font></h1>
+
+<div>
+	{% if message != None %}
+		{{ message }}
+	{% endif %}
+</div>
+
+<form action="" method="post">
+		{% csrf_token %} 
+	{% if requests != None %}
+		{% if requests.count > 0 %}
+			<b><p><font size="5">Congratulations !! You have {{ requests.count }} requests. Please approve or decline these requests.</font> </p></b>
+			<table>
+			
+			<th><font color="blue" size="4">Book Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+			<th><font color="blue" size="4">Borrow Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+			<th><font color="blue" size="4">End Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+			
+			{% for r in requests %}
+			<tr>
+				<td><input type="radio" name="booktorent" value="{{ r.id }}" required> {{ r.book_id }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td> {{ r.borrower_username }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" maxlength="30" name="end_date" class="form-control" placeholder="MM/DD/YYYY" required> </td>
+			</tr>
+			{% endfor %}
+			</table>
+			<br/><br/>
+			<input type="hidden" name="bookid" value={{ book.id }}>
+			<button type="submit" name="request_type" value="accept"><b>Accept To Rent</b></button>
+			<button type="submit" name="request_type" value="decline"><b>Decline</b></button>
+		{% else %}
+			<b><p><font size="5">No pending requests</font></p></b>
+		{% endif %}
+	{% endif %}	
+</form>	
+{% endblock %}

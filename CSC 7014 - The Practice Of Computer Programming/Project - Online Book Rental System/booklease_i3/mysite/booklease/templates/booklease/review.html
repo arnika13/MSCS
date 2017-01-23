@@ -1,0 +1,43 @@
+{% extends "booklease/base.html" %}
+
+{% block content %}
+
+<h1><font color="Red" size="15"><u>Reviews</u></font></h1>
+
+<table>
+	<th><font color="blue" size="4">Book Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+	<th><font color="blue" size="4">Book Owner&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+	<th><font color="blue" size="4">Borrower&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+	<th><font color="blue" size="4">Returned Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></th>
+	<tr>
+		<td>{{ book.borrowed_book_id}}</td>
+		<td>{{ book.borrowed_book_owner}}</td>
+		<td>{{ book.book_borrowed_by}}</td>
+		<td>{{ book.end_date}}</td>
+	<tr>
+</table>
+
+{% if written_review != None %}
+	<p><font color="magenta" size="4">You wrote the following review for {{ review_for }}:</font></p>
+	<p>{{ written_review }}</p>
+{% else %}
+	<p>You haven't written a review yet !! Please provide a review for {{ review_for }}</p>
+	<form action="" method="post">
+		{% csrf_token %}
+	<textarea rows="4" cols="50" name="reviewText" required></textarea>
+	<br/>
+	<button type="submit" value="review"><b>Post Review</b></button>
+	</form>
+{% endif %}
+
+{% if received_review != None %}
+	{% if written_review == None %}
+		<p>You have received the review from {{ review_for }}. But first you have to first write a review in order to see it.
+	{% else %}
+		<p><font color="magenta" size="4">You received the following review from {{ review_for }}:</font></p>
+		<p>{{ received_review }}</p>
+	{% endif %}
+{% else %}
+	<p>You haven't received the review from {{ review_for }} yet!!</p>
+{% endif %}
+{% endblock %}
