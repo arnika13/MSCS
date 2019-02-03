@@ -1,4 +1,9 @@
 
+
+Book Rental System-
+
+This web application enables the user to rent books from the book owner.
+
 INSTRUCTIONS TO RUN BOOKLEASE IN WINDOWS and MacOS:
 
 •	Install python 3.5.2. Make sure python is in the path.
